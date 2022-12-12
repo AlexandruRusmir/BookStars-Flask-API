@@ -6,11 +6,11 @@ import uuid
 import jwt
 import datetime
 import os
-from models.blog_message import BlogMessage
-from models.book import Book
-from models.book_of_the_week import BookOfTheWeek
-from models.review import Review
-from models.user import User
+# from models.blog_message import BlogMessage
+# from models.book import Book
+# from models.book_of_the_week import BookOfTheWeek
+# from models.review import Review
+# from models.user import User
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'introduce_one'
@@ -19,6 +19,40 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'bo
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
  
 db = SQLAlchemy(app)
+
+class BlogMessage(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    book_of_the_week_id = db.Column(db.Integer, db.ForeignKey('book_of_the_week.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    message = db.Column(db.String(2000), nullable=False)
+
+class BookOfTheWeek(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('book.id'), nullable=False)
+    start_date = db.Column(db.DateTime, nullable=False)
+
+class Book(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable = False)
+    author = db.Column(db.String(100), nullable = False)
+    description = db.Column(db.String(500), nullable = False)
+    rating = db.Column(db.Float, nullable = False)
+    image_url = db.Column(db.String(2500), nullable = False)
+
+class Review(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('book.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    is_public = db.Column(db.Boolean, nullable=False)
+    text = db.Column(db.String(2000), nullable=True)
+    rating = db.Column(db.Integer, nullable=True)
+    score = db.Column(db.Float, nullable=False)
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    public_id = db.Column(db.Integer, nullable = False)
+    user_name = db.Column(db.String(50), nullable = False)
+    password = db.Column(db.String(50), nullable = False)
 
 with app.app_context():
    db.create_all()
@@ -115,3 +149,6 @@ def get_books(current_user):
        output.append(book_data)
  
    return jsonify({'list_of_books' : output})
+
+if  __name__ == '__main__': 
+    app.run(debug=True)

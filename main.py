@@ -6,14 +6,11 @@ import uuid
 import jwt
 import datetime
 import os
-# from models.blog_message import BlogMessage
-# from models.book import Book
-# from models.book_of_the_week import BookOfTheWeek
-# from models.review import Review
-# from models.user import User
+from flask_cors import CORS
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'introduce_one'
+CORS(app)
+app.config['SECRET_KEY'] = 'A&&A'
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'booksA.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True

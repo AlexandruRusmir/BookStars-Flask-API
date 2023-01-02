@@ -58,37 +58,37 @@ with app.app_context():
    db.create_all()
    db.session.commit()
 
-new_book = Book(name='The Power of Now',
-                author='Eckhart Tolle',
-                description='In the first chapter, Tolle introduces readers to enlightenment and its natural enemy, the mind. He awakens readers to their role as a creator of pain and shows them how to have a pain-free identity by living fully in the present. The journey is thrilling, and along the way, the author shows how to connect to the indestructible essence of our Being, "the eternal, ever-present One Life beyond the myriad forms of life that are subject to birth and death."',
-                image_url='https://www.google.com/imgres?imgurl=https%3A%2F%2Fm.media-amazon.com%2Fimages%2FI%2F417VRErnKPL._AC_SY780_.jpg&imgrefurl=https%3A%2F%2Fwww.amazon.com%2FPower-Now-Guide-Spiritual-Enlightenment%2Fdp%2F1577314808&tbnid=y_gFp5Vsi7zRjM&vet=12ahUKEwinj4Dl9vH7AhXdIMUKHbHFB3gQMygAegUIARCrAg..i&docid=SSc8RwKtOhlM1M&w=315&h=500&q=the%20power%20of%20now&ved=2ahUKEwinj4Dl9vH7AhXdIMUKHbHFB3gQMygAegUIARCrAg',
-                rating=0)                 
-db.session.add(new_book)  
-new_book = Book(name='How to win friends and influence people',
-                author='Dale Carnegie',
-                description='Dale Carnegie’s rock-solid, time-tested advice has carried countless people up the ladder of success in their business and personal lives. One of the most groundbreaking and timeless bestsellers of all time, How to Win Friends & Influence People will teach you:six ways to make people like you, twelve ways to win people to your way of thinking, nine ways to change people without arousing resentment.',
-                image_url='https://m.media-amazon.com/images/I/41OksZQYt+L._SX320_BO1,204,203,200_.jpg',
-                rating=0)                 
-db.session.add(new_book) 
-new_book = Book(name='The 5 love languages',
-                author='Gary Chapman',
-                description='Falling in love is easy. Staying in love—that\'s the challenge. How can you keep your relationship fresh and growing amid the demands, conflicts, and just plain boredom of everyday life?In this book, you\'ll discover the secret that has transformed millions of relationships worldwide. Whether your relationship is flourishing or failing, Dr. Gary Chapman\'s proven approach to showing and receiving love will help you experience deeper and richer levels of intimacy with your partner—starting today.',
-                image_url='https://m.media-amazon.com/images/I/51c0ewv4OML._SX417_BO1,204,203,200_.jpg',
-                rating=0)                 
-db.session.add(new_book) 
-new_book = Book(name='1984',
-                author='George Orwell',
-                description='A startling and haunting novel, 1984 creates an imaginary world that is completely convincing from start to finish. No one can deny the novel’s hold on the imaginations of whole generations, or the power of its admonitions—a power that seems to grow, not lessen, with the passage of time.',
-                image_url='https://m.media-amazon.com/images/I/41aM4xOZxaL._SX277_BO1,204,203,200_.jpg',
-                rating=0)                 
-db.session.add(new_book) 
-new_book = Book(name='Kafka on the shore',
-                author='Haruki Murakami',
-                description='A startling and haunting novel, 1984 creates an imaginary world that is completely convincing from start to finish. No one can deny the novel’s hold on the imaginations of whole generations, or the power of its admonitions—a power that seems to grow, not lessen, with the passage of time.',
-                image_url='https://m.media-amazon.com/images/I/41aM4xOZxaL._SX277_BO1,204,203,200_.jpg',
-                rating=0)                 
-db.session.add(new_book)
-db.session.commit() 
+# new_book = Book(name='The Power of Now',
+#                 author='Eckhart Tolle',
+#                 description='In the first chapter, Tolle introduces readers to enlightenment and its natural enemy, the mind. He awakens readers to their role as a creator of pain and shows them how to have a pain-free identity by living fully in the present. The journey is thrilling, and along the way, the author shows how to connect to the indestructible essence of our Being, "the eternal, ever-present One Life beyond the myriad forms of life that are subject to birth and death."',
+#                 image_url='https://www.google.com/imgres?imgurl=https%3A%2F%2Fm.media-amazon.com%2Fimages%2FI%2F417VRErnKPL._AC_SY780_.jpg&imgrefurl=https%3A%2F%2Fwww.amazon.com%2FPower-Now-Guide-Spiritual-Enlightenment%2Fdp%2F1577314808&tbnid=y_gFp5Vsi7zRjM&vet=12ahUKEwinj4Dl9vH7AhXdIMUKHbHFB3gQMygAegUIARCrAg..i&docid=SSc8RwKtOhlM1M&w=315&h=500&q=the%20power%20of%20now&ved=2ahUKEwinj4Dl9vH7AhXdIMUKHbHFB3gQMygAegUIARCrAg',
+#                 rating=0)                 
+# db.session.add(new_book)  
+# new_book = Book(name='How to win friends and influence people',
+#                 author='Dale Carnegie',
+#                 description='Dale Carnegie’s rock-solid, time-tested advice has carried countless people up the ladder of success in their business and personal lives. One of the most groundbreaking and timeless bestsellers of all time, How to Win Friends & Influence People will teach you:six ways to make people like you, twelve ways to win people to your way of thinking, nine ways to change people without arousing resentment.',
+#                 image_url='https://m.media-amazon.com/images/I/41OksZQYt+L._SX320_BO1,204,203,200_.jpg',
+#                 rating=0)                 
+# db.session.add(new_book) 
+# new_book = Book(name='The 5 love languages',
+#                 author='Gary Chapman',
+#                 description='Falling in love is easy. Staying in love—that\'s the challenge. How can you keep your relationship fresh and growing amid the demands, conflicts, and just plain boredom of everyday life?In this book, you\'ll discover the secret that has transformed millions of relationships worldwide. Whether your relationship is flourishing or failing, Dr. Gary Chapman\'s proven approach to showing and receiving love will help you experience deeper and richer levels of intimacy with your partner—starting today.',
+#                 image_url='https://m.media-amazon.com/images/I/51c0ewv4OML._SX417_BO1,204,203,200_.jpg',
+#                 rating=0)                 
+# db.session.add(new_book) 
+# new_book = Book(name='1984',
+#                 author='George Orwell',
+#                 description='A startling and haunting novel, 1984 creates an imaginary world that is completely convincing from start to finish. No one can deny the novel’s hold on the imaginations of whole generations, or the power of its admonitions—a power that seems to grow, not lessen, with the passage of time.',
+#                 image_url='https://m.media-amazon.com/images/I/41aM4xOZxaL._SX277_BO1,204,203,200_.jpg',
+#                 rating=0)                 
+# db.session.add(new_book) 
+# new_book = Book(name='Kafka on the shore',
+#                 author='Haruki Murakami',
+#                 description='A startling and haunting novel, 1984 creates an imaginary world that is completely convincing from start to finish. No one can deny the novel’s hold on the imaginations of whole generations, or the power of its admonitions—a power that seems to grow, not lessen, with the passage of time.',
+#                 image_url='https://m.media-amazon.com/images/I/41aM4xOZxaL._SX277_BO1,204,203,200_.jpg',
+#                 rating=0)                 
+# db.session.add(new_book)
+# db.session.commit() 
 
 def token_required(f):
    @wraps(f)
@@ -136,7 +136,7 @@ def create_book(current_user):
    return jsonify({'message' : 'new books created'})
 
 @app.route('/books', methods=['GET'])
-def get_books(current_user):
+def get_books():
    books = Book.query.all()
    output = []
    for book in books:

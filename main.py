@@ -171,6 +171,7 @@ def get_books():
        book_data['publishYear'] = book.publish_year
        book_data['pageCount'] = book.page_count
        book_data['publisher'] = book.publisher
+       book_data['rating'] = book.rating
        output.append(book_data)
  
    return jsonify({'listOfBooks' : output})
@@ -191,6 +192,7 @@ def get_book(bookId):
     book_data['publishYear'] = book.publish_year
     book_data['pageCount'] = book.page_count
     book_data['publisher'] = book.publisher
+    book_data['rating'] = book.rating
     result['bookData'] = book_data
 
     rev = Review.query.filter_by(book_id=bookId).all()

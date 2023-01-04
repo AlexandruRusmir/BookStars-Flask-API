@@ -11,6 +11,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 app.config['SECRET_KEY'] = 'A&&A'
+app.config['CORS_HEADERS'] = 'Content-Type'
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'book_stars.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True

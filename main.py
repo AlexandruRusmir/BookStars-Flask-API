@@ -66,6 +66,7 @@ with app.app_context():
    db.session.commit()
 
 def populate_tables():
+    book_list = []
     new_book = Book(name='The Power of Now',
                     author='Eckhart Tolle',
                     description='In the first chapter, Tolle introduces readers to enlightenment and its natural enemy, the mind. He awakens readers to their role as a creator of pain and shows them how to have a pain-free identity by living fully in the present. The journey is thrilling, and along the way, the author shows how to connect to the indestructible essence of our Being, "the eternal, ever-present One Life beyond the myriad forms of life that are subject to birth and death."',
@@ -73,8 +74,10 @@ def populate_tables():
                     rating=0,
                     publish_year=2004,
                     page_count=236,
-                    publisher='New World Library')                 
+                    publisher='New World Library')  
+              
     db.session.add(new_book)  
+    book_list.append(new_book)
     new_book = Book(name='How to win friends and influence people',
                     author='Dale Carnegie',
                     description='Dale Carnegie’s rock-solid, time-tested advice has carried countless people up the ladder of success in their business and personal lives. One of the most groundbreaking and timeless bestsellers of all time, How to Win Friends & Influence People will teach you:six ways to make people like you, twelve ways to win people to your way of thinking, nine ways to change people without arousing resentment.',
@@ -84,6 +87,7 @@ def populate_tables():
                     page_count=320,
                     publisher='Pocket Books')                 
     db.session.add(new_book) 
+    book_list.append(new_book)
     new_book = Book(name='The 5 love languages',
                     author='Gary Chapman',
                     description='Falling in love is easy. Staying in love—that\'s the challenge. How can you keep your relationship fresh and growing amid the demands, conflicts, and just plain boredom of everyday life?In this book, you\'ll discover the secret that has transformed millions of relationships worldwide. Whether your relationship is flourishing or failing, Dr. Gary Chapman\'s proven approach to showing and receiving love will help you experience deeper and richer levels of intimacy with your partner—starting today.',
@@ -92,7 +96,8 @@ def populate_tables():
                     publish_year=2015,
                     page_count=208,
                     publisher='Northfield Publishing')                 
-    db.session.add(new_book) 
+    db.session.add(new_book)
+    book_list.append(new_book) 
     new_book = Book(name='1984',
                     author='George Orwell',
                     description='A startling and haunting novel, 1984 creates an imaginary world that is completely convincing from start to finish. No one can deny the novel’s hold on the imaginations of whole generations, or the power of its admonitions—a power that seems to grow, not lessen, with the passage of time.',
@@ -102,6 +107,7 @@ def populate_tables():
                     page_count=328,
                     publisher='Signet Classic')                 
     db.session.add(new_book) 
+    book_list.append(new_book)
     new_book = Book(name='Kafka on the shore',
                     author='Haruki Murakami',
                     description='A startling and haunting novel, 1984 creates an imaginary world that is completely convincing from start to finish. No one can deny the novel’s hold on the imaginations of whole generations, or the power of its admonitions—a power that seems to grow, not lessen, with the passage of time.',
@@ -111,6 +117,7 @@ def populate_tables():
                     page_count=505,
                     publisher='Vintage')                 
     db.session.add(new_book)
+    book_list.append(new_book)
     new_book = Book(name='The Great Gatsby',
                     author='F.Scott Fitzgerald',
                     description='The story primarily concerns the young and mysterious millionaire Jay Gatsby and his quixotic passion for the beautiful Daisy Buchanan. Considered to be Fitzgerald\'s magnum opus, The Great Gatsby explores themes of decadence, idealism, resistance to change, social upheaval, and excess, creating a portrait of the Jazz Age or the Roaring Twenties that has been described as a cautionary tale regarding the American Dream.',
@@ -120,6 +127,7 @@ def populate_tables():
                     page_count=214,
                     publisher='Unabridgd')                 
     db.session.add(new_book)
+    book_list.append(new_book)
     new_book = Book(name='To Kill a Mockingbird',
                     author='Harper Lee',
                     description='A gripping, heart-wrenching, and wholly remarkable tale of coming-of-age in a South poisoned by virulent prejudice, it views a world of great beauty and savage inequities through the eyes of a young girl, as her father—a crusading local lawyer—risks everything to defend a black man unjustly accused of a terrible crime.',
@@ -129,6 +137,7 @@ def populate_tables():
                     page_count=336,
                     publisher='Harper Perennial')                 
     db.session.add(new_book)
+    book_list.append(new_book)
     new_book = Book(name='Pride and Prejudice',
                     author='Jane Austen',
                     description='When Elizabeth first meets eligible bachelor Fitzwilliam, she thinks him arrogant and conceited; he is indifferent to her. When she later discovers that Darcy has involved himself in the relationship between his friend Bingley and her sister Jane, she is determined to dislike him more than ever. In the sparkling comedy of manners that follows, Jane shows us the folly of judging by first impressions and superbly evokes the friendships, gossip and snobberies of provincial middle-class life.',
@@ -138,10 +147,37 @@ def populate_tables():
                     page_count=480,
                     publisher='Penguin Books')                 
     db.session.add(new_book)
-
+    book_list.append(new_book)
     db.session.commit()    
 
-populate_tables()
+    today = datetime.date.today()
+    days_to_tuesday = 1 - today.weekday()
+    start_date = today + datetime.timedelta(days=days_to_tuesday)
+    all_books = Book.query.all()
+
+    for book, i in zip(all_books, range(len(all_books))):
+        new = BookOfTheWeek(book_id=book.id, start_date=start_date + datetime.timedelta(weeks=i))
+
+    hashed_password = generate_password_hash('123', method='sha256')
+    new_user = User(public_id=str(uuid.uuid4()), user_name='alex', password=hashed_password)
+    db.session.add(new_user)
+    hashed_password = generate_password_hash('123aaa', method='sha256')
+    new_user = User(public_id=str(uuid.uuid4()), user_name='ana', password=hashed_password)
+    db.session.add(new_user)
+    hashed_password = generate_password_hash('zxcv', method='sha256')
+    new_user = User(public_id=str(uuid.uuid4()), user_name='paty', password=hashed_password)
+    db.session.add(new_user)
+    hashed_password = generate_password_hash('123', method='sha256')
+    new_user = User(public_id=str(uuid.uuid4()), user_name='mirela', password=hashed_password)
+    db.session.add(new_user)
+    hashed_password = generate_password_hash('123', method='sha256')
+    new_user = User(public_id=str(uuid.uuid4()), user_name='dia', password=hashed_password)
+    db.session.add(new_user)
+
+    new_review = Review(book_id=8, user_id=2, is_public=True, text='Though the novel is more than 200 years old, its plot and characters have maintained their appeal, especially among fans of happy-ending romances.', rating=4, score=0)
+    new_review = Review(book_id=1, user_id=2, is_public=True, text='This is not a book you read for self-denial. It makes a mockery of such books, in fact. The self-help books that give your mind a focus, a mission, a purpose, the ego a cause, yeah, this isn\'t that.', rating=5, score=0)
+
+#populate_tables()
 
 def token_required(f):
    @wraps(f)
@@ -268,7 +304,7 @@ def get_my_reviews(current_user):
 
 @app.route('/appreciate_review/<int:reviewId>', methods=['POST'])
 @token_required
-def like_review(current_user, reviewId):
+def appreciate_review(current_user, reviewId):
     data = request.get_json()
     new_review_like = ReviewLikes(review_id=reviewId, user_id=current_user.id, like=data['like'])
     db.session.add(new_review_like)  
@@ -290,7 +326,6 @@ def top_reviews():
         review_data['rating'] = review.rating
         review_data['score'] = review.score
         reviews_list.append(review_data)
-
 
     return jsonify({'topReviews': reviews_list})
 

@@ -291,7 +291,8 @@ def top_reviews():
         review_data['score'] = review.score
         reviews_list.append(review_data)
 
-    return jsonify(reviews_list)
+
+    return jsonify({'topReviews': reviews_list})
 
 if  __name__ == '__main__': 
     app.run(debug=True)

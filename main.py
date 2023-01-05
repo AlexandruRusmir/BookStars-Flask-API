@@ -65,53 +65,83 @@ class User(db.Model):
 #    db.create_all()
 #    db.session.commit()
 
-# new_book = Book(name='The Power of Now',
-#                 author='Eckhart Tolle',
-#                 description='In the first chapter, Tolle introduces readers to enlightenment and its natural enemy, the mind. He awakens readers to their role as a creator of pain and shows them how to have a pain-free identity by living fully in the present. The journey is thrilling, and along the way, the author shows how to connect to the indestructible essence of our Being, "the eternal, ever-present One Life beyond the myriad forms of life that are subject to birth and death."',
-#                 image_url='https://m.media-amazon.com/images/I/417VRErnKPL._AC_SY780_.jpg',
-#                 rating=0,
-#                 publish_year=2004,
-#                 page_count=236,
-#                 publisher='New World Library')                 
-# db.session.add(new_book)  
-# new_book = Book(name='How to win friends and influence people',
-#                 author='Dale Carnegie',
-#                 description='Dale Carnegie’s rock-solid, time-tested advice has carried countless people up the ladder of success in their business and personal lives. One of the most groundbreaking and timeless bestsellers of all time, How to Win Friends & Influence People will teach you:six ways to make people like you, twelve ways to win people to your way of thinking, nine ways to change people without arousing resentment.',
-#                 image_url='https://m.media-amazon.com/images/I/41OksZQYt+L._SX320_BO1,204,203,200_.jpg',
-#                 rating=0,
-#                 publish_year=1998,
-#                 page_count=320,
-#                 publisher='Pocket Books')                 
-# db.session.add(new_book) 
-# new_book = Book(name='The 5 love languages',
-#                 author='Gary Chapman',
-#                 description='Falling in love is easy. Staying in love—that\'s the challenge. How can you keep your relationship fresh and growing amid the demands, conflicts, and just plain boredom of everyday life?In this book, you\'ll discover the secret that has transformed millions of relationships worldwide. Whether your relationship is flourishing or failing, Dr. Gary Chapman\'s proven approach to showing and receiving love will help you experience deeper and richer levels of intimacy with your partner—starting today.',
-#                 image_url='https://m.media-amazon.com/images/I/51c0ewv4OML._SX417_BO1,204,203,200_.jpg',
-#                 rating=0,
-#                 publish_year=2015,
-#                 page_count=208,
-#                 publisher='Northfield Publishing')                 
-# db.session.add(new_book) 
-# new_book = Book(name='1984',
-#                 author='George Orwell',
-#                 description='A startling and haunting novel, 1984 creates an imaginary world that is completely convincing from start to finish. No one can deny the novel’s hold on the imaginations of whole generations, or the power of its admonitions—a power that seems to grow, not lessen, with the passage of time.',
-#                 image_url='https://m.media-amazon.com/images/I/41aM4xOZxaL._SX277_BO1,204,203,200_.jpg',
-#                 rating=0,
-#                 publish_year=1961,
-#                 page_count=328,
-#                 publisher='Signet Classic')                 
-# db.session.add(new_book) 
-# new_book = Book(name='Kafka on the shore',
-#                 author='Haruki Murakami',
-#                 description='A startling and haunting novel, 1984 creates an imaginary world that is completely convincing from start to finish. No one can deny the novel’s hold on the imaginations of whole generations, or the power of its admonitions—a power that seems to grow, not lessen, with the passage of time.',
-#                 image_url='https://m.media-amazon.com/images/I/3190fsfp48L._SX321_BO1,204,203,200_.jpg',
-#                 rating=0,
-#                 publish_year=2005,
-#                 page_count=505,
-#                 publisher='Vintage')                 
-# db.session.add(new_book)
-# db.session.commit() 
+def populate_tables():
+    new_book = Book(name='The Power of Now',
+                    author='Eckhart Tolle',
+                    description='In the first chapter, Tolle introduces readers to enlightenment and its natural enemy, the mind. He awakens readers to their role as a creator of pain and shows them how to have a pain-free identity by living fully in the present. The journey is thrilling, and along the way, the author shows how to connect to the indestructible essence of our Being, "the eternal, ever-present One Life beyond the myriad forms of life that are subject to birth and death."',
+                    image_url='https://m.media-amazon.com/images/I/417VRErnKPL._AC_SY780_.jpg',
+                    rating=0,
+                    publish_year=2004,
+                    page_count=236,
+                    publisher='New World Library')                 
+    db.session.add(new_book)  
+    new_book = Book(name='How to win friends and influence people',
+                    author='Dale Carnegie',
+                    description='Dale Carnegie’s rock-solid, time-tested advice has carried countless people up the ladder of success in their business and personal lives. One of the most groundbreaking and timeless bestsellers of all time, How to Win Friends & Influence People will teach you:six ways to make people like you, twelve ways to win people to your way of thinking, nine ways to change people without arousing resentment.',
+                    image_url='https://m.media-amazon.com/images/I/41OksZQYt+L._SX320_BO1,204,203,200_.jpg',
+                    rating=0,
+                    publish_year=1998,
+                    page_count=320,
+                    publisher='Pocket Books')                 
+    db.session.add(new_book) 
+    new_book = Book(name='The 5 love languages',
+                    author='Gary Chapman',
+                    description='Falling in love is easy. Staying in love—that\'s the challenge. How can you keep your relationship fresh and growing amid the demands, conflicts, and just plain boredom of everyday life?In this book, you\'ll discover the secret that has transformed millions of relationships worldwide. Whether your relationship is flourishing or failing, Dr. Gary Chapman\'s proven approach to showing and receiving love will help you experience deeper and richer levels of intimacy with your partner—starting today.',
+                    image_url='https://m.media-amazon.com/images/I/51c0ewv4OML._SX417_BO1,204,203,200_.jpg',
+                    rating=0,
+                    publish_year=2015,
+                    page_count=208,
+                    publisher='Northfield Publishing')                 
+    db.session.add(new_book) 
+    new_book = Book(name='1984',
+                    author='George Orwell',
+                    description='A startling and haunting novel, 1984 creates an imaginary world that is completely convincing from start to finish. No one can deny the novel’s hold on the imaginations of whole generations, or the power of its admonitions—a power that seems to grow, not lessen, with the passage of time.',
+                    image_url='https://m.media-amazon.com/images/I/41aM4xOZxaL._SX277_BO1,204,203,200_.jpg',
+                    rating=0,
+                    publish_year=1961,
+                    page_count=328,
+                    publisher='Signet Classic')                 
+    db.session.add(new_book) 
+    new_book = Book(name='Kafka on the shore',
+                    author='Haruki Murakami',
+                    description='A startling and haunting novel, 1984 creates an imaginary world that is completely convincing from start to finish. No one can deny the novel’s hold on the imaginations of whole generations, or the power of its admonitions—a power that seems to grow, not lessen, with the passage of time.',
+                    image_url='https://m.media-amazon.com/images/I/3190fsfp48L._SX321_BO1,204,203,200_.jpg',
+                    rating=0,
+                    publish_year=2005,
+                    page_count=505,
+                    publisher='Vintage')                 
+    db.session.add(new_book)
+    new_book = Book(name='The Great Gatsby',
+                    author='F.Scott Fitzgerald',
+                    description='The story primarily concerns the young and mysterious millionaire Jay Gatsby and his quixotic passion for the beautiful Daisy Buchanan. Considered to be Fitzgerald\'s magnum opus, The Great Gatsby explores themes of decadence, idealism, resistance to change, social upheaval, and excess, creating a portrait of the Jazz Age or the Roaring Twenties that has been described as a cautionary tale regarding the American Dream.',
+                    image_url='https://m.media-amazon.com/images/I/51-b1lX+vYL.jpg',
+                    rating=0,
+                    publish_year=1925,
+                    page_count=214,
+                    publisher='Unabridgd')                 
+    db.session.add(new_book)
+    new_book = Book(name='To Kill a Mockingbird',
+                    author='Harper Lee',
+                    description='A gripping, heart-wrenching, and wholly remarkable tale of coming-of-age in a South poisoned by virulent prejudice, it views a world of great beauty and savage inequities through the eyes of a young girl, as her father—a crusading local lawyer—risks everything to defend a black man unjustly accused of a terrible crime.',
+                    image_url='https://m.media-amazon.com/images/I/51IXWZzlgSL._SX330_BO1,204,203,200_.jpg',
+                    rating=0,
+                    publish_year=2002,
+                    page_count=336,
+                    publisher='Harper Perennial')                 
+    db.session.add(new_book)
+    new_book = Book(name='Pride and Prejudice',
+                    author='Jane Austen',
+                    description='When Elizabeth first meets eligible bachelor Fitzwilliam, she thinks him arrogant and conceited; he is indifferent to her. When she later discovers that Darcy has involved himself in the relationship between his friend Bingley and her sister Jane, she is determined to dislike him more than ever. In the sparkling comedy of manners that follows, Jane shows us the folly of judging by first impressions and superbly evokes the friendships, gossip and snobberies of provincial middle-class life.',
+                    image_url='https://m.media-amazon.com/images/I/51IXWZzlgSL._SX330_BO1,204,203,200_.jpg',
+                    rating=0,
+                    publish_year=2002,
+                    page_count=480,
+                    publisher='Penguin Books')                 
+    db.session.add(new_book)
 
+    db.session.commit()    
+
+ 
 def token_required(f):
    @wraps(f)
    def decorator(*args, **kwargs):
@@ -195,7 +225,7 @@ def get_book(bookId):
     book_data['rating'] = book.rating
     result['bookData'] = book_data
 
-    rev = Review.query.filter_by(book_id=bookId).all()
+    rev = Review.query.filter_by(book_id=bookId, is_public=True).all()
     print(rev)
     reviews = []
     for review in rev:
@@ -221,10 +251,10 @@ def add_review(current_user, bookID):
     db.session.commit() 
     return jsonify({'message' : 'new review created'})
 
-@app.route('/get_review/<int:bookID>', methods=['GET'])
+@app.route('/get_my_reviews', methods=['GET'])
 @token_required
-def get_review(current_user, bookID):
-    review = Review.query.filter_by(book_id=bookID, user_id=current_user.id)
+def get_my_reviews(current_user):
+    review = Review.query.filter_by(user_id=current_user.id)
     review_data = {}
     review_data['id'] = review.id
     review_data['bookId'] = review.book_id
@@ -243,6 +273,23 @@ def like_review(current_user, reviewId):
     db.session.add(new_review_like)  
     db.session.commit() 
     return jsonify({'message' : 'new (dis)like for review added'})
+
+@app.route('/top_reviews', methods=['GET'])
+def top_reviews():
+    reviews = Review.query.filter_by(is_public=True).order_by(Review.score.desc()).limit(3).all()
+    reviews_list = []
+    for review in reviews:
+        review_data = {}
+        review_data['id'] = review.id
+        review_data['bookId'] = review.book_id
+        review_data['userId'] = review.user_id
+        review_data['isPublic'] = review.is_public
+        review_data['text'] = review.text
+        review_data['rating'] = review.rating
+        review_data['score'] = review.score
+        reviews_list.append(review_data)
+
+    return jsonify(reviews_list)
 
 if  __name__ == '__main__': 
     app.run(debug=True)

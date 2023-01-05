@@ -61,9 +61,9 @@ class User(db.Model):
     user_name = db.Column(db.String(50), nullable = False)
     password = db.Column(db.String(50), nullable = False)
 
-# with app.app_context():
-#    db.create_all()
-#    db.session.commit()
+with app.app_context():
+   db.create_all()
+   db.session.commit()
 
 def populate_tables():
     new_book = Book(name='The Power of Now',
@@ -141,7 +141,8 @@ def populate_tables():
 
     db.session.commit()    
 
- 
+populate_tables()
+
 def token_required(f):
    @wraps(f)
    def decorator(*args, **kwargs):
@@ -279,10 +280,11 @@ def top_reviews():
     reviews = Review.query.filter_by(is_public=True).order_by(Review.score.desc()).limit(3).all()
     reviews_list = []
     for review in reviews:
+        user = User.query.filter_by(id=review.user_id).first()
         review_data = {}
         review_data['id'] = review.id
         review_data['bookId'] = review.book_id
-        review_data['userId'] = review.user_id
+        review_data['userName'] = user.user_name
         review_data['isPublic'] = review.is_public
         review_data['text'] = review.text
         review_data['rating'] = review.rating

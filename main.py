@@ -266,7 +266,7 @@ def get_my_reviews(current_user):
     review_data['score'] = review.score
     return jsonify(review_data)
 
-@app.route('/like_review/<int:reviewId>', methods=['POST'])
+@app.route('/appreciate_review/<int:reviewId>', methods=['POST'])
 @token_required
 def like_review(current_user, reviewId):
     data = request.get_json()

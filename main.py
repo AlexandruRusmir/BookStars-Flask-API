@@ -299,16 +299,20 @@ def add_review(current_user, bookID):
 @app.route('/get_my_reviews', methods=['GET'])
 @token_required
 def get_my_reviews(current_user):
-    review = Review.query.filter_by(user_id=current_user.id)
-    review_data = {}
-    review_data['id'] = review.id
-    review_data['bookId'] = review.book_id
-    review_data['userId'] = review.user_id
-    review_data['isPublic'] = review.is_public
-    review_data['text'] = review.text
-    review_data['rating'] = review.rating
-    review_data['score'] = review.score
-    return jsonify(review_data)
+    reviews = Review.query.filter_by(user_id=current_user.id).all()
+    reviews_list = []
+    for review in reviews:
+        review_data = {}
+        review_data['id'] = review.id
+        review_data['bookId'] = review.book_id
+        review_data['userId'] = review.user_id
+        review_data['isPublic'] = review.is_public
+        review_data['text'] = review.text
+        review_data['rating'] = review.rating
+        review_data['score'] = review.score
+        reviews_list.append(review_data)
+        
+    return jsonify({'myReviews': reviews_list})
 
 @app.route('/appreciate_review/<int:reviewId>', methods=['POST'])
 @token_required

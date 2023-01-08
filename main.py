@@ -208,7 +208,8 @@ def get_books():
    return jsonify({'listOfBooks' : output})
 
 @app.route('/book/<int:bookId>')
-def get_book(bookId):
+@token_required
+def get_book(current_user, bookId):
     book = Book.query.filter_by(id=bookId).first()
     if not book:  
        return jsonify({'message': 'book does not exist'})
@@ -230,6 +231,7 @@ def get_book(bookId):
     print(rev)
     reviews = []
     for review in rev:
+        review_likes = ReviewLikes.query.filter_by(user_id=current_user.id, review_id=review.id).first()
         review_data = {}
         review_data['id'] = review.id
         review_data['bookId'] = review.book_id
@@ -238,6 +240,8 @@ def get_book(bookId):
         review_data['text'] = review.text
         review_data['rating'] = review.rating
         review_data['score'] = review.score
+        review_data['likedByUser'] = review_likes.like == True
+        review_data['dislikedByUser'] = review_likes.like == False
         reviews.append(review_data)
     result['reviews'] = reviews
 

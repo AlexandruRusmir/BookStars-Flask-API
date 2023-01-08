@@ -271,6 +271,7 @@ def get_book(current_user, bookId):
     reviews = []
     for review in rev:
         review_likes = ReviewLikes.query.filter_by(user_id=current_user.id, review_id=review.id).first()
+        user = User.query.filter_by(id=current_user.id).first()
         review_data = {}
         review_data['id'] = review.id
         review_data['bookId'] = review.book_id
@@ -279,6 +280,7 @@ def get_book(current_user, bookId):
         review_data['text'] = review.text
         review_data['rating'] = review.rating
         review_data['score'] = review.score
+        review_data['userName'] = user.user_name
         if review_likes:
             review_data['likedByUser'] = review_likes.like == True
             review_data['dislikedByUser'] = review_likes.like == False
@@ -345,22 +347,43 @@ def top_reviews():
 
     return jsonify({'topReviews': reviews_list})
 
-@app.route('/book_of_the_week', methods=['GET'])
-def book_of_the_week():
-    now = datetime.now()
-    book_of_week = BookOfTheWeek.query.filter(BookOfTheWeek.start_date<=now).order_by(BookOfTheWeek.start_date.asc()).first()
-    book_data = {}
-    if now.weekday:
-        book_data['sendMessage'] = False
-        book_data['time'] = (book_of_week.start_date + timedelta(days=6)).timestamp()
-    else:
-        book_data['sendMessage'] = True
-        book_data['time'] = book_of_week.start_date + timedelta(days=7).timestamp()
-    
-    book = Book.query.filter_by(id=book_of_week.book_id).first()
-    book_data['name'] = book.name
-    
-    return jsonify(book_data)
+@app.route('/book_of_the_week', methods=['GET', 'POST'])
+@token_required
+def book_of_the_week(current_user):
+    if request.method == 'GET':
+        now = datetime.now()
+        book_of_week = BookOfTheWeek.query.filter(BookOfTheWeek.start_date<=now).order_by(BookOfTheWeek.start_date.asc()).first()
+        book_data = {}
+        messages_list = []
+        if now.weekday:
+            book_data['sendMessage'] = False
+            book_data['time'] = (book_of_week.start_date + timedelta(days=6)).timestamp()
+        else:
+            book_data['sendMessage'] = True
+            book_data['time'] = (book_of_week.start_date + timedelta(days=7)).timestamp()
+
+            messages = BlogMessage.query.all()
+            for m in messages:
+                user = User.query.filter_by(id=m.user_id).first()
+                message_data = {}
+                message_data['userId'] = m.user_id
+                message_data['userName'] = user.user_name
+                message_data['message'] = m.message
+                messages_list.append(message_data)
+
+        book = Book.query.filter_by(id=book_of_week.book_id).first()
+        book_data['name'] = book.name
+        book_data['bookId'] = book.id
+        
+        return jsonify({"bookData": book_data, "chat": messages_list})
+    elif request.method == 'POST':
+        now = datetime.now()
+        book_of_week = BookOfTheWeek.query.filter(BookOfTheWeek.start_date<=now).order_by(BookOfTheWeek.start_date.asc()).first()
+        data = request.get_json()
+        newMessage = BlogMessage(book_of_the_week_id=book_of_week.id, user_id=current_user.id, message=data['message'])
+        db.session.add(newMessage)
+        db.session.commit()
+        return jsonify({"message": "message added to chat!"})
 
 if  __name__ == '__main__': 
     app.run(debug=True)

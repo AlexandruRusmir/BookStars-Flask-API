@@ -61,9 +61,9 @@ class User(db.Model):
     user_name = db.Column(db.String(50), nullable = False)
     password = db.Column(db.String(50), nullable = False)
 
-with app.app_context():
-   db.create_all()
-   db.session.commit()
+# with app.app_context():
+#    db.create_all()
+#    db.session.commit()
 
 def populate_tables():
     book_list = []
@@ -147,8 +147,7 @@ def populate_tables():
                     page_count=480,
                     publisher='Penguin Books')                 
     db.session.add(new_book)
-    book_list.append(new_book)
-    db.session.commit()    
+    book_list.append(new_book) 
 
     today = datetime.date.today()
     days_to_tuesday = 1 - today.weekday()
@@ -157,6 +156,7 @@ def populate_tables():
 
     for book, i in zip(all_books, range(len(all_books))):
         new = BookOfTheWeek(book_id=book.id, start_date=start_date + datetime.timedelta(weeks=i))
+        db.session.add(new)
 
     hashed_password = generate_password_hash('123', method='sha256')
     new_user = User(public_id=str(uuid.uuid4()), user_name='alex', password=hashed_password)
@@ -175,7 +175,10 @@ def populate_tables():
     db.session.add(new_user)
 
     new_review = Review(book_id=8, user_id=2, is_public=True, text='Though the novel is more than 200 years old, its plot and characters have maintained their appeal, especially among fans of happy-ending romances.', rating=4, score=0)
+    db.session.add(new_review)
     new_review = Review(book_id=1, user_id=2, is_public=True, text='This is not a book you read for self-denial. It makes a mockery of such books, in fact. The self-help books that give your mind a focus, a mission, a purpose, the ego a cause, yeah, this isn\'t that.', rating=5, score=0)
+    db.session.add(new_review)
+    db.session.commit()
 
 #populate_tables()
 
@@ -311,8 +314,12 @@ def get_my_reviews(current_user):
 @token_required
 def appreciate_review(current_user, reviewId):
     data = request.get_json()
-    new_review_like = ReviewLikes(review_id=reviewId, user_id=current_user.id, like=data['like'])
-    db.session.add(new_review_like)  
+    review_like_exists = ReviewLikes.query.filter_by(review_id=reviewId, user_id=current_user.id)
+    if review_like_exists:
+        review_like_exists.like = data['like']
+    else:
+        new_review_like = ReviewLikes(review_id=reviewId, user_id=current_user.id, like=data['like'])
+        db.session.add(new_review_like)  
     db.session.commit() 
     return jsonify({'message' : 'new (dis)like for review added'})
 
@@ -333,6 +340,8 @@ def top_reviews():
         reviews_list.append(review_data)
 
     return jsonify({'topReviews': reviews_list})
+
+#@app.route('/book_of_the_week')
 
 if  __name__ == '__main__': 
     app.run(debug=True)

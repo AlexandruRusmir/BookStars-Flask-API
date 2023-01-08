@@ -276,8 +276,9 @@ def get_book(current_user, bookId):
         review_data['text'] = review.text
         review_data['rating'] = review.rating
         review_data['score'] = review.score
-        review_data['likedByUser'] = review_likes.like == True
-        review_data['dislikedByUser'] = review_likes.like == False
+        if review_likes:
+            review_data['likedByUser'] = review_likes.like == True
+            review_data['dislikedByUser'] = review_likes.like == False
         reviews.append(review_data)
     result['reviews'] = reviews
 

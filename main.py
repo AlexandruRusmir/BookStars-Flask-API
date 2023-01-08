@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from functools import wraps
 import uuid
 import jwt
-import datetime
+from datetime import datetime, timedelta, date
 import os
 from flask_cors import CORS
 
@@ -149,13 +149,13 @@ def populate_tables():
     db.session.add(new_book)
     book_list.append(new_book) 
 
-    today = datetime.date.today()
+    today = date.today()
     days_to_tuesday = 1 - today.weekday()
-    start_date = today + datetime.timedelta(days=days_to_tuesday)
+    start_date = today + timedelta(days=days_to_tuesday)
     all_books = Book.query.all()
 
     for book, i in zip(all_books, range(len(all_books))):
-        new = BookOfTheWeek(book_id=book.id, start_date=start_date + datetime.timedelta(weeks=i))
+        new = BookOfTheWeek(book_id=book.id, start_date=start_date + timedelta(weeks=i))
         db.session.add(new)
 
     hashed_password = generate_password_hash('123', method='sha256')
@@ -214,7 +214,7 @@ def login_user():
        return make_response('could not verify', 401, {'Authentication': 'login required"'})   
    user = User.query.filter_by(user_name=auth.username).first()  
    if check_password_hash(user.password, auth.password):
-       token = jwt.encode({'public_id' : user.public_id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=50)}, app.config['SECRET_KEY'], "HS256")
+       token = jwt.encode({'public_id' : user.public_id, 'exp' : datetime.utcnow() + timedelta(minutes=50)}, app.config['SECRET_KEY'], "HS256")
        return jsonify({'token' : token})
    return make_response('could not verify',  401, {'Authentication': '"login required"'})
 
@@ -314,7 +314,7 @@ def get_my_reviews(current_user):
 @token_required
 def appreciate_review(current_user, reviewId):
     data = request.get_json()
-    review_like_exists = ReviewLikes.query.filter_by(review_id=reviewId, user_id=current_user.id)
+    review_like_exists = ReviewLikes.query.filter_by(review_id=reviewId, user_id=current_user.id).first()
     if review_like_exists:
         review_like_exists.like = data['like']
     else:
@@ -341,7 +341,22 @@ def top_reviews():
 
     return jsonify({'topReviews': reviews_list})
 
-#@app.route('/book_of_the_week')
+@app.route('/book_of_the_week', methods=['GET'])
+def book_of_the_week():
+    now = datetime.now()
+    book_of_week = BookOfTheWeek.query.filter(BookOfTheWeek.start_date<=now).order_by(BookOfTheWeek.start_date.asc()).first()
+    book_data = {}
+    if now.weekday:
+        book_data['sendMessage'] = False
+        book_data['time'] = (book_of_week.start_date + timedelta(days=6)).timestamp()
+    else:
+        book_data['sendMessage'] = True
+        book_data['time'] = book_of_week.start_date + timedelta(days=7).timestamp()
+    
+    book = Book.query.filter_by(id=book_of_week.book_id).first()
+    book_data['name'] = book.name
+    
+    return jsonify(book_data)
 
 if  __name__ == '__main__': 
     app.run(debug=True)

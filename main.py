@@ -176,7 +176,9 @@ def populate_tables():
 
     new_review = Review(book_id=8, user_id=2, is_public=True, text='Though the novel is more than 200 years old, its plot and characters have maintained their appeal, especially among fans of happy-ending romances.', rating=4, score=0)
     db.session.add(new_review)
-    new_review = Review(book_id=1, user_id=2, is_public=True, text='This is not a book you read for self-denial. It makes a mockery of such books, in fact. The self-help books that give your mind a focus, a mission, a purpose, the ego a cause, yeah, this isn\'t that.', rating=5, score=0)
+    new_review = Review(book_id=8, user_id=1, is_public=True, text='A classic, but it bored me to death. Read it for school, do not recommand', rating=1, score=0)
+    db.session.add(new_review)
+    new_review = Review(book_id=1, user_id=1, is_public=True, text='This is not a book you read for self-denial. It makes a mockery of such books, in fact. The self-help books that give your mind a focus, a mission, a purpose, the ego a cause, yeah, this isn\'t that.', rating=5, score=0)
     db.session.add(new_review)
     db.session.commit()
 
@@ -254,6 +256,7 @@ def get_book(current_user, bookId):
        return jsonify({'message': 'book does not exist'})
 
     result = {}
+    has_written_review = False
     book_data = {}
     book_data['id'] = book.id
     book_data['name'] = book.name
@@ -267,11 +270,10 @@ def get_book(current_user, bookId):
     result['bookData'] = book_data
 
     rev = Review.query.filter_by(book_id=bookId, is_public=True).all()
-    print(rev)
     reviews = []
     for review in rev:
         review_likes = ReviewLikes.query.filter_by(user_id=current_user.id, review_id=review.id).first()
-        user = User.query.filter_by(id=current_user.id).first()
+        review_owner = User.query.filter_by(id=review.user_id).first()
         review_data = {}
         review_data['id'] = review.id
         review_data['bookId'] = review.book_id
@@ -280,11 +282,16 @@ def get_book(current_user, bookId):
         review_data['text'] = review.text
         review_data['rating'] = review.rating
         review_data['score'] = review.score
-        review_data['userName'] = user.user_name
+        review_data['userName'] = review_owner.user_name
         if review_likes:
             review_data['likedByUser'] = review_likes.like == True
             review_data['dislikedByUser'] = review_likes.like == False
         reviews.append(review_data)
+
+        this_user = User.query.filter_by(id=current_user.id).first()
+        if this_user.id == review_owner.id:
+            has_written_review = True
+    book_data['userHasWrittenReview'] = has_written_review
     result['reviews'] = reviews
 
     return jsonify(result)
@@ -295,6 +302,15 @@ def add_review(current_user, bookID):
     data = request.get_json()
     new_review = Review(book_id=bookID, user_id = current_user.id, is_public=data['isPublic'], text=data['text'], rating=data['rating'], score=0)
     db.session.add(new_review)  
+    if data['rating']:
+        sum = data['rating']
+        nr_of_ratings = 1
+        all_reviews = Review.query.filter(Review.rating!=0).filter_by(book_id=bookID).all()
+        for rev in all_reviews:
+            sum += rev.score
+            nr_of_ratings += 1
+        book = Book.query.filter_by(id=bookID)
+        book.rating = sum / nr_of_ratings
     db.session.commit() 
     return jsonify({'message' : 'new review created'})
 

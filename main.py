@@ -393,7 +393,7 @@ def chat(current_user):
     if request.method == 'GET':
         messages_list = []
         now = datetime.now()
-        book_of_week = BookOfTheWeek.query.filter(BookOfTheWeek.start_date<=now).order_by(BookOfTheWeek.start_date.asc()).first()
+        book_of_week = BookOfTheWeek.query.filter(BookOfTheWeek.start_date<=now).order_by(BookOfTheWeek.start_date.desc()).first()
         messages = BlogMessage.query.filter_by(book_of_the_week_id=book_of_week.book_id).order_by(BlogMessage.id.asc())
         for m in messages:
             user = User.query.filter_by(id=m.user_id).first()

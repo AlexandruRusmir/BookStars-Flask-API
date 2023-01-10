@@ -371,7 +371,7 @@ def top_reviews():
 @app.route('/book_of_the_week', methods=['GET'])
 def book_of_the_week():
     now = datetime.now()
-    book_of_week = BookOfTheWeek.query.filter(BookOfTheWeek.start_date<=now).order_by(BookOfTheWeek.start_date.asc()).first()
+    book_of_week = BookOfTheWeek.query.filter(BookOfTheWeek.start_date<=now).order_by(BookOfTheWeek.start_date.desc()).first()
     book_data = {}
 
     if now.weekday():

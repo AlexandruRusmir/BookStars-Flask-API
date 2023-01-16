@@ -307,9 +307,9 @@ def add_review(current_user, bookID):
         nr_of_ratings = 1
         all_reviews = Review.query.filter(Review.rating!=0).filter_by(book_id=bookID).all()
         for rev in all_reviews:
-            sum += rev.score
+            sum += rev.rating
             nr_of_ratings += 1
-        book = Book.query.filter_by(id=bookID)
+        book = Book.query.filter_by(id=bookID).first()
         book.rating = sum / nr_of_ratings
     db.session.commit() 
     return jsonify({'message' : 'new review created'})
@@ -402,6 +402,7 @@ def chat(current_user):
             message_data['userName'] = user.user_name
             message_data['message'] = m.message
             messages_list.append(message_data)
+        messages_list.reverse()
         return jsonify({"chat": messages_list})
     else:
         now = datetime.now()
